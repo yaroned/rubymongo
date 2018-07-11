@@ -4,11 +4,11 @@
 #
 require 'mongo'
 class WordCountParser_mongo
-  @@num_of_books = 0
-  @@names = Array.new
-  @@WORDS_COUNT = {}
-  @@COLLECTION_NAME = "_counts_"
+
+  COLLECTION_NAME = "_counts_" #the collection to insert documents / new collection to create
+
   def initialize(dir_path)
+    @names = Array.new
     @dir_path = dir_path
     @table_name = '__counts'
     @db = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'word_counts')
@@ -19,10 +19,9 @@ class WordCountParser_mongo
   def form_dictionary()
     Dir.foreach(@dir_path){|file|
       next if file == '.' or file == '..'
-      @@names << file
-      @@num_of_books +=1
+      @names << file
     }
-    @@names.each { |x| index_one(x) }
+    @names.each { |x| index_one(x) }
   end
 
 
@@ -51,7 +50,7 @@ class WordCountParser_mongo
             }
         }
 
-        @db[:"#{@@COLLECTION_NAME}"].update_one(
+        @db[:"#{COLLECTION_NAME}"].update_one(
             {'word' => word},
             {
 
