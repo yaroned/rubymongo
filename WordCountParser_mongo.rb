@@ -52,14 +52,13 @@ class WordCountParser_mongo
         @db[:"#{COLLECTION_NAME}"].update_one(
             {'word' => word},
             {
-
                     "$inc" => {'count' => 1},
                     "$push" => {
                         "location" => doc["location"]
                     }
-
             },
             {"upsert":true}) #create new document if one does not already exist
+
       tempword = tempword+1
       end
       templine = templine+1
