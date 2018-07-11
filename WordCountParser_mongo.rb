@@ -10,7 +10,6 @@ class WordCountParser_mongo
   def initialize(dir_path)
     @names = Array.new
     @dir_path = dir_path
-    @table_name = '__counts'
     @db = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'word_counts')
     @coll = @db["word_counts"]
   end
@@ -44,7 +43,7 @@ class WordCountParser_mongo
             "word" => word,
             "count" => 1,
             "location"=>{
-                "file_name":book_name,
+                "file_name":"#{@dir_path}/"+book_name,
                 "line":templine,
                 "word":tempword
             }
