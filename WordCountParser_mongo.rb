@@ -60,7 +60,7 @@ class WordCountParser_mongo
                     }
 
             },
-            {"upsert":true})
+            {"upsert":true}) #create new document if one does not already exist
       tempword = tempword+1
       end
       templine = templine+1
@@ -68,7 +68,5 @@ class WordCountParser_mongo
 
     puts "Indexed #{book_name}"
   end
-
-
 end
 
