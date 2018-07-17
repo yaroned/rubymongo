@@ -37,7 +37,6 @@ class WordCountParser_mongo
       tempword = 0
       words = line.split
       words.each do |word|
-        #word = word.gsub(/[^a-zA-Z0-9-]+/i, "").downcase
         word = word.gsub(/[;.""...,()?!*]+/i, "").downcase
         doc = {
             "word" => word,
@@ -55,7 +54,12 @@ class WordCountParser_mongo
                     "$inc" => {'count' => 1},
                     "$push" => {
                         "location" => doc["location"]
-                    }
+                    },
+                    "$currentDate":
+                        {lastModified: true,
+                    "createdAt":
+                        { "$type": "timestamp" }
+            },
             },
             {"upsert":true}) #create new document if one does not already exist
 
@@ -66,5 +70,25 @@ class WordCountParser_mongo
 
     puts "Indexed #{book_name}"
   end
+
+
+
+  # fetches all docs from mongodb collection word_count
+  # Params:
+  def fetch_all()
+        puts "fetching"
+        m =  @db[:"#{COLLECTION_NAME}"].find({}) #create new document if one does not already exist
+        puts "fetched..."
+    return m
+  end
+
+
+  # fetches one doc from mongodb
+  # Params:
+  def count_appearances(word)
+    count =  @db[:"#{COLLECTION_NAME}"].find({"word":word}).count() #create new document if one does not already exist
+    return count
+  end
+
 end
 
