@@ -9,7 +9,7 @@ describe WordCountParser_mongo do
 		wcp.instance_variable_get(:@names).length.should >0
 	end
 	
-	it "a specific word should not be indexed exactly once" do
+	it "a specific word should be indexed exactly once" do
 		s = wcp.fetch_all
 		s.each do |i|
    		  count =  wcp.count_appearances(i["word"])
