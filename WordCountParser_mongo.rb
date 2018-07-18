@@ -1,5 +1,4 @@
-# WordCountParser_mongo - the constructor accepts a directory path contains .txt files and save to mongoDB
-# num_of_books - the number of .txt files in the directory
+# WordCountParser_mongo - the constructor accepts a directory path contains .txt files
 # names - array consists of the .txt files names in the directory
 #
 require 'mongo'
@@ -77,16 +76,16 @@ class WordCountParser_mongo
   # Params:
   def fetch_all()
         puts "fetching"
-        m =  @db[:"#{COLLECTION_NAME}"].find({}) #create new document if one does not already exist
+        m =  @db[:"#{COLLECTION_NAME}"].find({})
         puts "fetched..."
     return m
   end
 
 
-  # fetches one doc from mongodb
+  # given a word, it return the number of documents this word appear in. (should not return more than 1)
   # Params:
   def count_appearances(word)
-    count =  @db[:"#{COLLECTION_NAME}"].find({"word":word}).count() #create new document if one does not already exist
+    count =  @db[:"#{COLLECTION_NAME}"].find({"word":word}).count()
     return count
   end
 
